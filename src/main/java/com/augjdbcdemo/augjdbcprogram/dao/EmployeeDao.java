@@ -23,4 +23,21 @@ public class EmployeeDao implements EmployeeRepo {
                 new BeanPropertyRowMapper<>(Employee.class));
         return list;
     }
+
+    @Override
+    public Employee getEmployeeById(Integer id) {
+
+        String sql="select * from employee where id=?";
+        Employee e=jdbcTemplate.queryForObject(sql,new Object[]{id},
+                new BeanPropertyRowMapper<>(Employee.class));
+        return e;
+    }
+
+    @Override
+    public String insertData(Employee employee) {
+
+        String sql="insert into employee values (?,?,?)";
+        jdbcTemplate.update(sql, new Object[]{employee.getId(),employee.getName(),employee.getCity()});
+        return "Data saved";
+    }
 }
